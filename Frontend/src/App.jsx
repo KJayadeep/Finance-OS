@@ -1,50 +1,47 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
-import { useState,useContext } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import FinanceLayout from "./layouts/FinanceLayout";
 
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Incomes from "./pages/Incomes";
 import Expenses from "./pages/Expenses";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import { useGlobalContext } from "./context/useGlobalContext";
+import { useAuthContext } from "./context/authContext";
 
 const App = () => {
   const globalContext = useGlobalContext();
+  const { user,loading } = useAuthContext();
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+  
   return (
     <BrowserRouter>
-
-      <FinanceLayout>
-
-        <Routes>
-
-          <Route
-            path="/"
-            element={<Dashboard />}
-          />
-
-          <Route
-            path="/transactions"
-            element={<Transactions />}
-          />
-
-          <Route
-            path="/incomes"
-            element={<Incomes />}
-          />
-
-          <Route
-            path="/expenses"
-            element={<Expenses />}
-          />
-
-        </Routes>
-
-      </FinanceLayout>
-
+      <Routes>
+        <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
+        <Route path="/signup" element={!user?<Signup />:<Navigate to='/'/>} />
+        <Route
+          path="/*"
+          element={
+            <FinanceLayout>
+              <Routes>
+                <Route path="/" element={user?<Dashboard />:<Navigate to="/login"/>} />
+                <Route path="/transactions" element={user?<Transactions />:<Navigate to="/login"/>} />
+                <Route path="/incomes" element={user?<Incomes />:<Navigate to="/login"/>} />
+                <Route path="/expenses" element={user?<Expenses />:<Navigate to="/login"/>} />
+              </Routes>
+            </FinanceLayout>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 };
