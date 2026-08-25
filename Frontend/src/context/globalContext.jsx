@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const GlobalContext = React.createContext();
 
@@ -16,6 +17,7 @@ export const GlobalProvider = ({ children }) => {
         incomeData,
       );
       setIncomes([...incomes, response.data]);
+      toast.success("Income added successfully!")
     } catch (error) {
       console.error("Error adding income:", error);
     }
@@ -28,6 +30,7 @@ export const GlobalProvider = ({ children }) => {
         expenseData,
       );
       setExpenses([...expenses, response.data]);
+      toast.success("Expense added successfully!")
     } catch (error) {
       console.error("Error adding expense:", error);
     }
@@ -55,6 +58,7 @@ export const GlobalProvider = ({ children }) => {
     try {
       await axios.delete(`${BaseUrl}transactions/delete-income/${incomeId}`);
       setIncomes(incomes.filter((income) => income._id !== incomeId));
+      toast.success("Income deleted successfully!")
     } catch (error) {
       console.error("Error deleting income:", error);
     }
@@ -64,6 +68,7 @@ export const GlobalProvider = ({ children }) => {
     try {
       await axios.delete(`${BaseUrl}transactions/delete-expense/${expenseId}`);
       setExpenses(expenses.filter((expense) => expense._id !== expenseId));
+      toast.success("Expense deleted successfully!")
     } catch (error) {
       console.error("Error deleting expense:", error);
     }

@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/signup`, user);
       setUser(data.user);
-      return ({success: true,user:data.user});
+      return ({success: true,user: data.user});
     } catch (error) {
       return { success: false, message: error.response?.data?.message || "Signup failed" };
     }
