@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
       return ({success: true,user:data.user});
     } catch (error) {
-      console.error("Error fetching user:", error);
+      return { success: false, message: error.response?.data?.message || "Signup failed" };
     }
   };
 
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
       return ({success: true,user:data.user});
     } catch (error) {
-      console.error("Error fetching user:", error);
+      return { success: false, message: error.response?.data?.message || "Login failed" };
     }
   };
 
