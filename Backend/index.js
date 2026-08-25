@@ -24,15 +24,15 @@ app.use(cors({
 app.use("/api/transactions", transactionRouter);
 app.use("/api/auth/",authRouter)
 
-// app.listen(process.env.PORT,() => {
-//     connectDB();
-//   console.log(`Server is running on port ${process.env.PORT}`);
-// });
+app.listen(process.env.PORT,() => {
+    connectDB();
+  console.log(`Server is running on port ${process.env.PORT}`);
+});
 
-if (process.env.NODE_ENV !== "production") {
-  app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 5000}`);
-  });
-}
+// if (process.env.NODE_ENV !== "production") {
+//   app.listen(process.env.PORT || 5000, () => {
+//     console.log(`Server is running on port ${process.env.PORT || 5000}`);
+//   });
+// }
 
-export default app;
+// export default app;
