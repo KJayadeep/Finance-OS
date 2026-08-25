@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const GlobalContext = React.createContext();
 
-const BaseUrl = import.meta.env.VITE_API_URL;
+const BaseUrl = `${import.meta.env.VITE_API_URL}/api/`;
 
 export const GlobalProvider = ({ children }) => {
   const [incomes, setIncomes] = React.useState([]);
