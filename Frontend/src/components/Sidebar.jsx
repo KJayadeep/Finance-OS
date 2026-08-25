@@ -8,8 +8,12 @@ import {
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
+import { useAuthContext } from "../context/authContext";
 
 const Sidebar = () => {
+  
+  const {logout} = useAuthContext();
+
   const menu = [
     {
       name: "Dashboard",
@@ -109,7 +113,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white">
+        <button onClick={logout} className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white">
           <LogOut size={18} />
           Sign Out
         </button>
