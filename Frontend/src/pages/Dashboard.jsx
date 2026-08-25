@@ -1,6 +1,6 @@
 import StatCard from "../components/StatCard";
 import TransactionChart from "../Components/TransactionChart";
-import RecentHistory from "../components/RecentHistory";
+import RecentHistory from "../Components/RecentHistory";
 import RangeCard from "../components/RangeCard";
 import { useState, useContext, useEffect } from "react";
 import { useGlobalContext } from "../context/useGlobalContext";
