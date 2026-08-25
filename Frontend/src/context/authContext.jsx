@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/signup`, user);
       setUser(data.user);
-      return data.user;
+      return ({success: true,user:data.user});
     } catch (error) {
       console.error("Error fetching user:", error);
     }
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/login`, user);
       setUser(data.user);
-      return data.user;
+      return ({success: true,user:data.user});
     } catch (error) {
       console.error("Error fetching user:", error);
     }
