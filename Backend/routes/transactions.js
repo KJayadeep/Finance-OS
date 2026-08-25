@@ -2,8 +2,11 @@
 import { Router } from "express";
 import { addIncome, getIncomes, deleteIncome} from "../controllers/addIncome.js";
 import { addExpense, getExpenses, deleteExpense} from "../controllers/expense.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const transactionRouter = Router();
+
+transactionRouter.use(protect)
 
 transactionRouter.post("/add-income",addIncome);
 transactionRouter.get("/get-incomes", getIncomes);
