@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useGlobalContext } from "./context/useGlobalContext";
 import { useAuthContext } from "./context/authContext";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const globalContext = useGlobalContext();
@@ -24,25 +25,32 @@ const App = () => {
   }
   
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
-        <Route path="/signup" element={!user?<Signup />:<Navigate to='/'/>} />
-        <Route
-          path="/*"
-          element={
-            <FinanceLayout>
-              <Routes>
-                <Route path="/" element={user?<Dashboard />:<Navigate to="/login"/>} />
-                <Route path="/transactions" element={user?<Transactions />:<Navigate to="/login"/>} />
-                <Route path="/incomes" element={user?<Incomes />:<Navigate to="/login"/>} />
-                <Route path="/expenses" element={user?<Expenses />:<Navigate to="/login"/>} />
-              </Routes>
-            </FinanceLayout>
-          }
+
+    <>
+      <Toaster
+          position="top-right"
+          reverseOrder={false}
         />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
+          <Route path="/signup" element={!user?<Signup />:<Navigate to='/'/>} />
+          <Route
+            path="/*"
+            element={
+              <FinanceLayout>
+                <Routes>
+                  <Route path="/" element={user?<Dashboard />:<Navigate to="/login"/>} />
+                  <Route path="/transactions" element={user?<Transactions />:<Navigate to="/login"/>} />
+                  <Route path="/incomes" element={user?<Incomes />:<Navigate to="/login"/>} />
+                  <Route path="/expenses" element={user?<Expenses />:<Navigate to="/login"/>} />
+                </Routes>
+              </FinanceLayout>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
