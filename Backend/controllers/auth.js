@@ -1,6 +1,6 @@
-import { User } from "../models/userModel";
+import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../config/utils";
+import { generateToken } from "../config/utils.js";
 
 export const signup = async (req, res) => {
   try {
@@ -19,33 +19,66 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hasedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = await User.create({ name, email, hasedPassword });
+    const newUser = await User.create({ name, email, password: hasedPassword });
 
     const token = generateToken(newUser._id);
 
-    res.status(201).json({ token, message: "User created successfully" });
+    res.cookie("token", token);
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message || "Error creating user" });
   }
 };
 
-export const login = async (req,res) => {
-    try {
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password)
+      return res.status(400).json({ message: "All fields are required" });
 
-        const {email, password} = req.body;
-        if(!email || !password) return res.status(400).json({ message: "All fields are required" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ message: "user does not exist" });
 
-        const user = await User.findOne({email});
-        if(!user) return res.status(401).json({message:"user does not exist"})
-        
-        const validate = await bcrypt.compare(password,user.password)
-        if(!validate) return res.json({message:"Invalid credentials"})
+    const validate = await bcrypt.compare(password, user.password);
+    if (!validate) return res.json({ message: "Invalid credentials" });
 
-        const token = generateToken(user._id);
-        res..json({ token, message: "User logged in successfully" });
+    const token = generateToken(user._id);
+    res.cookie("token", token,{
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.status(200).json({
+      message: "User logged in successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "Error logging in user",
+      error: error.message,
+    });
+  }
+};
 
+export const logout = async (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logged out successfully" });
+};
 
-    } catch (error) {
-        
-    }
+export const checkAuth = async (req,res) => {
+  res.status(200).json({user:req.user});
 }
