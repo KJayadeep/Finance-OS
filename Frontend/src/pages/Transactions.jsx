@@ -3,10 +3,9 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import TransactionItem from "../components/TransactionItem";
+import TransactionItem from "../components/TransactionItem.jsx";
 
-import { transactions } from "../data/transactions";
-import { useGlobalContext } from "../context/useGlobalContext";
+import { useGlobalContext } from "../context/useGlobalContext.jsx";
 
 const Transactions = () => {
   const {transactionHistory} = useGlobalContext()
