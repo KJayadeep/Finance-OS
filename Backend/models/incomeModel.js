@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const incomeSchema = mongoose.Schema(
   {
+    user:{
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true
+    },
     title: {
       type: String,
       required: true,
