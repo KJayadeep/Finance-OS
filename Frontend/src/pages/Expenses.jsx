@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react";
 
 import { transactions } from "../data/transactions";
 import { useGlobalContext } from "../context/useGlobalContext";
-import FormCard from "../Components/FormCard";
+import FormCard from "../components/FormCard";
 
 const Expenses = () => {
   const { expenses, getExpenses, totalExpenses } = useGlobalContext();
