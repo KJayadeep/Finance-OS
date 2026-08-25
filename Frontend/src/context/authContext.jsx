@@ -1,6 +1,7 @@
 import React, { createContext } from "react";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/signup`, user);
       setUser(data.user);
+      toast.success("Signup successful!");
       return ({success: true,user: data.user});
     } catch (error) {
       return { success: false, message: error.response?.data?.message || "Signup failed" };
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/login`, user);
       setUser(data.user);
+      toast.success("Login successful!");
       return ({success: true,user:data.user});
     } catch (error) {
       return { success: false, message: error.response?.data?.message || "Login failed" };
@@ -34,6 +37,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await axios.post(`${BaseUrl}auth/logout`);
     setUser(null);
+    toast.success("Logout successful!");
   };
 
   const checkAuth = async () => {
