@@ -25,12 +25,11 @@ const App = () => {
   }
   
   return (
-
     <>
       <Toaster
           position="top-right"
           reverseOrder={false}
-        />
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
