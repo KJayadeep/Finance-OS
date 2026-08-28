@@ -2,7 +2,7 @@
 
 A full-stack personal finance tracker for managing income, expenses, and spending trends in one clean dashboard.
 
-**Live demo:** [finance-os-nu-flax.vercel.app](https://finance-os-nu-flax.vercel.app)
+**Live demo:** [finance-os-nu-flax.vercel.app](https://finance-os-frontend-xi.vercel.app/)
 
 ---
 
