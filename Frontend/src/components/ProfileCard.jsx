@@ -36,7 +36,7 @@ const ProfileCard = ({ onClose }) => {
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-slate-900">{user.name}</h3>
+            <h3 className="text-sm font-bold text-slate-900">{user?.name}</h3>
 
             <p className="text-xs text-slate-400">Manage your profile</p>
           </div>
