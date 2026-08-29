@@ -1,10 +1,17 @@
 import Expense from "../models/expenseModel.js";
+import redis from "../config/redis.js";
 
 export const addExpense = async (req, res) => {
   try{
     const { title, amount, category, description, date} = req.body;
+    console.log(req.body)
     if(!title || !amount || !category || !description || !date){
       return res.status(400).json({message: "All fields are required"});
+    }
+    const key = `expenses:${req.user._id.toString()}`
+    await redis.del(key)
+    if(amount <= 0 || typeof amount === 'number'){
+      return res.status(400).json({message: "Amount must be a positive number"});
     }
     const expense = await Expense.create({
       user: req.user._id,
@@ -15,9 +22,7 @@ export const addExpense = async (req, res) => {
       date,
     });
 
-    if(amount <= 0 || typeof amount === 'number'){
-      return res.status(400).json({message: "Amount must be a positive number"});
-    }
+    
     res.status(200).json({message: "Expense added successfully", expense});
   }
   catch (error) {
@@ -27,7 +32,14 @@ export const addExpense = async (req, res) => {
 
 export const getExpenses = async (req, res) => {
     try {
+        const userId = req.user._id.toString()
+        const key = `expenses:${userId}`
+        const cachedExpenses = await redis.get(key)
+        if(cachedExpenses){
+          return res.status(200).json(JSON.parse(cachedExpenses))
+        }
         const expenses = await Expense.find({user: req.user._id,}).sort({ createdAt: -1 });
+        await redis.set(key,JSON.stringify(expenses),"EX",300)
         res.status(200).json(expenses);
     }
     catch (error) {
