@@ -107,7 +107,7 @@ const Sidebar = () => {
           </div>
 
           <div>
-            <p className="text-sm font-semibold">{user.name}</p>
+            <p className="text-sm font-semibold">{user?.name}</p>
 
             <p className="text-xs text-slate-500">Personal</p>
           </div>
