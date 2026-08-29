@@ -26,8 +26,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (user) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/login`, user);
-      console.log(data)
-      console.log(user)
       setUser(data.user);
       toast.success("Login successful!");
       return ({success: true,user:data.user});
@@ -53,13 +51,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (updatedData) => {
+    try {
+      const { data } = await axios.post(`${BaseUrl}auth/update-profile`,updatedData)
+      setUser(data.user)
+      toast.success(data.message)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     checkAuth();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ signup, login, logout, user, setUser, loading, setLoading }}
+      value={{ signup, login, logout, user, setUser, loading, setLoading, updateProfile }}
     >
       {children}
     </AuthContext.Provider>
