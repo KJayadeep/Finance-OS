@@ -32,7 +32,7 @@ const ProfileCard = ({ onClose }) => {
       <div className="flex items-center justify-between border-b border-slate-100 p-5">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#a3e635] text-sm font-bold text-slate-900">
-            JD
+            {user?.name.at(0).toUpperCase()}
           </div>
 
           <div>

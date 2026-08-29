@@ -103,7 +103,7 @@ const Sidebar = () => {
 
         <div className="mb-5 flex items-center gap-3 rounded-xl bg-slate-800 p-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#a3e635] text-sm font-bold text-[#111827]">
-            JD
+            {user?.name.at(0).toUpperCase()}
           </div>
 
           <div>
