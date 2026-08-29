@@ -21,6 +21,10 @@ app.use(cors({
 }));
 
 //routes
+app.get("/api/welcome",(req,res)=>{
+  res.json({ welcome: "Welcome to the API" });
+})
+
 app.use("/api/transactions", transactionRouter);
 app.use("/api/auth/",authRouter)
 

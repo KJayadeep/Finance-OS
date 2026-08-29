@@ -26,6 +26,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (user) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/login`, user);
+      console.log(data)
+      console.log(user)
       setUser(data.user);
       toast.success("Login successful!");
       return ({success: true,user:data.user});

@@ -154,7 +154,7 @@ const FormCard = ({ type }) => {
 
           <input
             id="amount"
-            type="text"
+            type="number"
             value={inputValue.amount}
             name="amount"
             placeholder="0.00"
