@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
 
     const token = generateToken(newUser._id);
 
-    res.cookie("token", token,{
+    res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
       secure: true,
@@ -56,7 +56,7 @@ export const login = async (req, res) => {
     if (!validate) return res.json({ message: "Invalid credentials" });
 
     const token = generateToken(user._id);
-    res.cookie("token", token,{
+    res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
       secure: true,
@@ -84,6 +84,37 @@ export const logout = async (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-export const checkAuth = async (req,res) => {
-  res.status(200).json({user:req.user});
-}
+export const checkAuth = async (req, res) => {
+  res.status(200).json({ user: req.user });
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, password, confirmpassword } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (name) {
+      user.name = name;
+    }
+    if (password) {
+      if (password !== confirmpassword) {
+        return res.status(400).json({ message: "Password do not Match" });
+      }
+      const salt = await bcrypt.genSalt(10);
+      const hasedPassword = await bcrypt.hash(password, salt);
+      user.password = hasedPassword;
+    }
+    await user.save();
+    res.status(200).json({message:"Profile updated successfully",
+      user:{
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({message:error.message});
+  }
+};
