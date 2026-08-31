@@ -64,12 +64,14 @@ export const deleteIncome = async (req, res) => {
     const income = await Income.findOneAndDelete({
       _id: id,
       user: req.user._id,
-    })
+    });
     if (!income) {
       return res.status(404).json({
         message: "Income not found",
       });
     }
+    await redis.del(`incomes:${req.user._id.toString()}`);
+    return res.status(200).json({ message: "Income deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

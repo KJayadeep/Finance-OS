@@ -64,6 +64,8 @@ export const deleteExpense = async (req, res) => {
         message: "Expense not found",
       });
     }
+    await redis.del(`expenses:${req.user._id.toString()}`);
+    return res.status(200).json({ message: "Expense deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
