@@ -16,8 +16,8 @@ export const GlobalProvider = ({ children }) => {
         `${BaseUrl}transactions/add-income`,
         incomeData,
       );
-      setIncomes([...incomes, response.data]);
-      toast.success("Income added successfully!")
+      setIncomes((prev)=>[...prev, response.data.income]);
+      toast.success(response.data.message)
     } catch (error) {
       console.error("Error adding income:", error);
     }
@@ -29,8 +29,8 @@ export const GlobalProvider = ({ children }) => {
         `${BaseUrl}transactions/add-expense`,
         expenseData,
       );
-      setExpenses([...expenses, response.data]);
-      toast.success("Expense added successfully!")
+      setExpenses((prev)=>[...prev, response.data.expense]);
+      toast.success(response.data.message)
     } catch (error) {
       console.error("Error adding expense:", error);
     }

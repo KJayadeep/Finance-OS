@@ -159,6 +159,7 @@ const FormCard = ({ type }) => {
             name="amount"
             placeholder="0.00"
             onChange={handleChange}
+            required
             className={`w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:bg-white ${theme.focus}`}
           />
         </div>

@@ -12,7 +12,7 @@ const Incomes = () => {
 
   useEffect(() => {
     getIncomes();
-  }, [incomes]);
+  }, []);
 
 
   return (

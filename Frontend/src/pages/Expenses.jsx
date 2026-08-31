@@ -11,7 +11,7 @@ const Expenses = () => {
 
   useEffect(() => {
     getExpenses();
-  }, [expenses]);
+  }, []);
 
 
   return (
