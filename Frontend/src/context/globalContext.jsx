@@ -56,9 +56,9 @@ export const GlobalProvider = ({ children }) => {
 
   const deleteIncome = async (incomeId) => {
     try {
-      await axios.delete(`${BaseUrl}transactions/delete-income/${incomeId}`);
+      const {data} = await axios.delete(`${BaseUrl}transactions/delete-income/${incomeId}`);
       setIncomes(incomes.filter((income) => income._id !== incomeId));
-      toast.success("Income deleted successfully!")
+      toast.success(data.message)
     } catch (error) {
       console.error("Error deleting income:", error);
     }
@@ -66,9 +66,9 @@ export const GlobalProvider = ({ children }) => {
 
   const deleteExpense = async (expenseId) => {
     try {
-      await axios.delete(`${BaseUrl}transactions/delete-expense/${expenseId}`);
+      const {data} = await axios.delete(`${BaseUrl}transactions/delete-expense/${expenseId}`);
       setExpenses(expenses.filter((expense) => expense._id !== expenseId));
-      toast.success("Expense deleted successfully!")
+      toast.success(data.message)
     } catch (error) {
       console.error("Error deleting expense:", error);
     }
