@@ -9,6 +9,8 @@ export const signup = async (req, res) => {
     if (!name || !email || !password)
       return res.status(400).json({ message: "All fields are required" });
 
+    
+
     const user = await User.findOne({ email });
     if (user) {
       return res
@@ -53,7 +55,7 @@ export const login = async (req, res) => {
     if (!user) return res.status(401).json({ message: "user does not exist" });
 
     const validate = await bcrypt.compare(password, user.password);
-    if (!validate) return res.json({ message: "Invalid credentials" });
+    if (!validate) return res.status(401).json({ message: "Invalid credentials" });
 
     const token = generateToken(user._id);
     res.cookie("token", token, {

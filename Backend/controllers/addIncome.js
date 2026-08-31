@@ -8,11 +8,17 @@ export const addIncome = async (req, res) => {
     if (!title || !amount || !category || !description || !date) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const key = `incomes:${req.user._id.toString()}`;
-    await redis.del(key);
-    if(amount <= 0 || typeof amount === 'number'){
-      return res.status(400).json({message: "Amount must be a positive number"});
+
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+      return res.status(400).json({
+        message: "Amount must be a positive number",
+      });
     }
+
+    await redis.del(`incomes:${req.user._id.toString()}`);
+
     const income = await Income.create({
       user: req.user._id,
       title,
@@ -58,12 +64,12 @@ export const deleteIncome = async (req, res) => {
     const income = await Income.findOneAndDelete({
       _id: id,
       user: req.user._id,
-    }).then((income) => {
-      if (!income) {
-        return res.status(404).json({ message: "Income not found" });
-      }
-      res.status(200).json({ message: "Income deleted successfully" });
-    });
+    })
+    if (!income) {
+      return res.status(404).json({
+        message: "Income not found",
+      });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

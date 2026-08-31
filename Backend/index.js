@@ -5,10 +5,7 @@ import connectDB from "./config/db.js";
 import transactionRouter from "./routes/transactions.js";
 import authRouter from "./routes/auth.js";
 import cookieParser from "cookie-parser";
-
-
-
-dotenv.config();
+import "dotenv/config"
 
 const app = express();
 
@@ -29,7 +26,7 @@ app.use("/api/transactions", transactionRouter);
 app.use("/api/auth/",authRouter)
 
 app.listen(process.env.PORT,() => {
-    connectDB();
+  connectDB();
   console.log(`Server is running on port ${process.env.PORT}`);
 });
 
