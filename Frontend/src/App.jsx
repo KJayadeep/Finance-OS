@@ -8,6 +8,7 @@ import Incomes from "./pages/Incomes";
 import Expenses from "./pages/Expenses";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import VerifyEmail from "./pages/VerifyEmail";
 import { useGlobalContext } from "./context/useGlobalContext";
 import { useAuthContext } from "./context/authContext";
 import { Toaster } from "react-hot-toast";
@@ -34,6 +35,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
           <Route path="/signup" element={!user?<Signup />:<Navigate to='/'/>} />
+          <Route path="/verify-email" element={!user?<VerifyEmail />:<Navigate to='/'/>} />
           <Route
             path="/*"
             element={

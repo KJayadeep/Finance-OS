@@ -38,7 +38,7 @@ const Signup = () => {
     const result = await signup(formData);
 
     if (result.success) {
-      navigate("/");
+      navigate("/verify-email", { state: { email: formData.email } });
     } else {
       console.error(result.message);
     }
