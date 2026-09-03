@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useAuthContext } from "../context/authContext";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +39,9 @@ const Signup = () => {
     const result = await signup(formData);
 
     if (result.success) {
-      navigate("/");
+      navigate("/verify-email", { state: { email: formData.email } });
     } else {
-      console.error(result.message);
+      toast.error(result.message || "Signup failed");
     }
   };
 
