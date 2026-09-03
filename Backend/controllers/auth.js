@@ -15,9 +15,25 @@ export const signup = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user) {
-      return res
-        .status(409)
-        .json({ message: "An account with this email already exists" });
+      if (user.emailVerified) {
+        return res
+          .status(409)
+          .json({ message: "An account with this email already exists" });
+      }
+      const otp = generateOTP();
+      const otpKey = `email-otp:${email}`;
+
+      await redis.set(otpKey, otp, "EX", 300);
+
+      await sendEmail(
+        email,
+        "Email Verification",
+        `Your OTP for email verification is: ${otp}. It will expire in 5 minutes.`,
+      );
+
+      return res.status(201).json({
+        message: "Account created. OTP sent to your email.",
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -111,11 +127,11 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie("token",{
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
