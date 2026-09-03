@@ -15,11 +15,21 @@ export const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const { data } = await axios.post(`${BaseUrl}auth/signup`, user);
-      setUser(data.user);
-      toast.success("Signup successful!");
-      return ({success: true,user: data.user});
+      toast.success(data.message);
+      return ({success: true});
     } catch (error) {
       return { success: false, message: error.response?.data?.message || "Signup failed" };
+    }
+  };
+
+  const verifyEmail = async (email, otp) => {
+    try {
+      const { data } = await axios.post(`${BaseUrl}auth/verify-email`, { email, otp });
+      setUser(data.user);
+      toast.success(data.message);
+      return ({success: true,user:data.user});
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || "Email verification failed" };
     }
   };
 
@@ -68,7 +78,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signup, login, logout, user, setUser, loading, setLoading, updateProfile }}
+      value={{ signup, login, logout, user, setUser, loading, setLoading, updateProfile, verifyEmail }}
     >
       {children}
     </AuthContext.Provider>

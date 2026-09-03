@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import transactionRouter from "./routes/transactions.js";
 import authRouter from "./routes/auth.js";
 import cookieParser from "cookie-parser";
+import transporter from "./config/nodeMailer.js";
 import "dotenv/config"
 
 const app = express();

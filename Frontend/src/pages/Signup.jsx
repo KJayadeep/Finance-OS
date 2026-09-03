@@ -36,9 +36,10 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await signup(formData);
-
     if (result.success) {
-      navigate("/");
+      navigate("/verify-email",{
+        state: { email: formData.email },
+      });
     } else {
       console.error(result.message);
     }
